@@ -50,6 +50,12 @@ enum ConnType
   CT_CONFIG,
 };
 
+/** Property IDs */
+enum PropertyIDs : uint8_t
+{
+  PID_MAX_APDULEGNTH = 0x38, // maximum APDU length
+};
+
 /** Driver for tunnels */
 class ConnState: public SubDriver, public L_Busmonitor_CallBack
 {
@@ -70,6 +76,7 @@ public:
   ConnType type = CT_NONE;
   int no;
   bool nat;
+  uint8_t maxAPDULength;
 
   ev::timer timeout;
   void timeout_cb(ev::timer &w, int revents);
@@ -181,6 +188,7 @@ private:
   ev::tstamp keepalive;
   IniSectionPtr router_cfg;
   IniSectionPtr tunnel_cfg;
+  uint8_t maxAPDULength;
 
   std::vector < ConnStatePtr > connections;
   Queue < ConnStatePtr > drop_q;
