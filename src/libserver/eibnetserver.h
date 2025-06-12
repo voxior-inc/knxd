@@ -53,7 +53,7 @@ enum ConnType
 /** Property IDs */
 enum PropertyIDs : uint8_t
 {
-  PID_MAX_APDULEGNTH = 0x38, // maximum APDU length
+  PID_MAX_APDULENGTH = 0x38, // maximum APDU length
 };
 
 /** Driver for tunnels */

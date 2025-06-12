@@ -1052,7 +1052,7 @@ void ConnState::config_request(EIBnet_ConfigRequest &r1, EIBNetIPSocket *isock)
                     count = 0;
                 }
               else {
-                if (prop == PID_MAX_APDULEGNTH) {
+                if (prop == PID_MAX_APDULENGTH) {
                   res.resize (2);
                   res[1] = maxAPDULength;
                 } else {
