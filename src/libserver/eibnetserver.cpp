@@ -372,6 +372,17 @@ void ConnState::sendtimeout_cb(ev::timer &, int)
     }
   CArray p = out.get ();
   t->TracePacket (2, "dropped no-ACK", p.size(), p.data());
+  if (channel > 0)
+    {
+      EIBnet_DisconnectRequest r;
+      r.channel = channel;
+      if (GetSourceAddress (t, &caddr, &r.caddr))
+        {
+          r.caddr.sin_port = std::static_pointer_cast<EIBnetServer>(server)->Port;
+          r.nat = nat;
+          std::static_pointer_cast<EIBnetServer>(server)->Send (r.ToPacket (), caddr);
+        }
+    }
   stop(true);
 }
 
