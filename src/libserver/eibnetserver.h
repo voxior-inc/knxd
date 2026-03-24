@@ -190,6 +190,7 @@ private:
   IniSectionPtr tunnel_cfg;
   uint8_t maxAPDULength;
 
+  uint8_t next_channel = 0;
   std::vector < ConnStatePtr > connections;
   Queue < ConnStatePtr > drop_q;
 

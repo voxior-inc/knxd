@@ -316,15 +316,23 @@ int
 EIBnetServer::addClient (ConnType type, const EIBnet_ConnectRequest & r1,
                          eibaddr_t addr)
 {
-  int id = 1;
-rt:
-  ITER(i, connections)
-  if ((*i)->channel == id)
+  int id = next_channel;
+  for (int tries = 0; tries < 0xff; tries++)
     {
-      id++;
-      goto rt;
+      id = (id % 0xff) + 1;
+      bool used = false;
+      ITER(i, connections)
+      if ((*i)->channel == id)
+        {
+          used = true;
+          break;
+        }
+      if (!used)
+        goto found;
     }
-  if (id <= 0xff)  // TODO configurable maximum
+  return -1;
+found:
+  next_channel = id;
     {
       LinkConnectClientPtr conn = LinkConnectClientPtr(new LinkConnectClient(std::dynamic_pointer_cast<EIBnetServer>(shared_from_this()), tunnel_cfg, t));
       ConnStatePtr s = ConnStatePtr(new ConnState(this, conn, addr));
