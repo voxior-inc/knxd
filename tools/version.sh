@@ -7,6 +7,4 @@ if test -s debian/changelog ; then
     exit
 fi
 
-test -d .git || exit
-# git describe --tags
-git log --format=format:%D | perl -ne 'next unless s#.*tag: ##; s#,.*##; next if m#/#; print; exit;'
+cat version.txt
